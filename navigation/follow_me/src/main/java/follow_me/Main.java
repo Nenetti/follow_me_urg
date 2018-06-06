@@ -31,6 +31,7 @@ import org.ros.node.topic.Subscriber;
 
 
 
+
 public class Main extends AbstractNodeMain {
 
 	@Override
@@ -40,7 +41,27 @@ public class Main extends AbstractNodeMain {
 
 	@Override
 	public void onStart(ConnectedNode connectedNode) {
-		Follow_Me follow_Me=new Follow_Me();
-		follow_Me.start(connectedNode);
+		
 	}
+	
+	public void receivedMessage(final ConnectedNode connectedNode) {
+		Subscriber<std_msgs.String> start_subscriber=connectedNode.newSubscriber("follow_me", std_msgs.String._TYPE);
+		start_subscriber.addMessageListener(new MessageListener<std_msgs.String>() {
+			@Override
+			public void onNewMessage(std_msgs.String message) {
+				switch(message.getData()) {
+				case "start":
+					Follow_Me follow_Me=new Follow_Me();
+					follow_Me.start(connectedNode);
+					break;
+				case "stop":
+					System.exit(0);
+					break;
+				}
+			}
+		});
+		
+		
+	}
+	
 }
