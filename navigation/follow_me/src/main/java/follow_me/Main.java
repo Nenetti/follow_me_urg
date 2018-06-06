@@ -41,7 +41,7 @@ public class Main extends AbstractNodeMain {
 
 	@Override
 	public void onStart(ConnectedNode connectedNode) {
-		
+		receivedMessage(connectedNode);
 	}
 	
 	public void receivedMessage(final ConnectedNode connectedNode) {
